@@ -61,21 +61,21 @@
                     (cond ((and username password)
                            (execute-sql host database filename username password))
                           ((not username)
-                           (format t "No Username Found for Host: ~S, Database: ~S~C"
+                           (format t "No Username Found for Server: ~S, Database: ~S~C"
                                    (to-symbol host) (to-symbol database) #\newline))
                           ((not password)
-                           (format t "No Password Found for User: ~S, Host: ~S, Database: ~S~C"
+                           (format t "No Password Found for User: ~S, Server: ~S, Database: ~S~C"
                                    username (to-symbol host) (to-symbol database) #\newline))))
                   (format t "File Not Found: ~A~C"
                           filename #\newline))
               (format t "Invalid Database: ~A. Valid Databases: ~A~C"
                       (to-symbol database) (databases host) #\newline))
-          (format t "Invalid Host: ~A. Valid Hosts: ~A~C"
+          (format t "Invalid Server: ~A. Valid Servers: ~A~C"
                   (to-symbol host) (hosts) #\newline))))
 
 (defun print-help-hosts ()
   (format t
-          "~CHosts: ~A~C"
+          "~CServers: ~A~C"
           #\tab (hosts) #\newline))
 
 (defun print-help-databases (host)
