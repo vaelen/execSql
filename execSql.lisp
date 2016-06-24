@@ -41,14 +41,14 @@
   (if (and username password)
       (if filename
           (let ((cmd (format 'nil *cmd-string* host database filename username password)))
-            (format t "Executing SQL. Server: ~A, Database: ~A, File: ~A~C"
-                    host database filename #\newline)
+            (format t "Executing SQL. Server: ~A, Database: ~A, File: ~A~%"
+                    host database filename)
             ;;(princ cmd)
             ;;(princ #\newline)
             (uiop:run-program cmd :input :interactive :output :interactive :error :interactive))
           (let ((cmd (format 'nil *interactive-cmd-string* host database username password)))
-            (format t "Executing SQL Shell. Server: ~A, Database: ~A~C"
-                    host database #\newline)
+            (format t "Executing SQL Shell. Server: ~A, Database: ~A~%"
+                    host database)
             ;;(princ cmd)
             ;;(princ #\newline)
             (uiop:run-program  cmd :input :interactive :output :interactive :error :interactive)))
@@ -61,37 +61,36 @@
                     (cond ((and username password)
                            (execute-sql host database filename username password))
                           ((not username)
-                           (format t "No Username Found for Server: ~S, Database: ~S~C"
-                                   (to-symbol host) (to-symbol database) #\newline))
+                           (format t "No Username Found for Server: ~S, Database: ~S~%"
+                                   (to-symbol host) (to-symbol database)))
                           ((not password)
-                           (format t "No Password Found for User: ~S, Server: ~S, Database: ~S~C"
-                                   username (to-symbol host) (to-symbol database) #\newline))))
-                  (format t "File Not Found: ~A~C"
-                          filename #\newline))
-              (format t "Invalid Database: ~A. Valid Databases: ~A~C"
-                      (to-symbol database) (databases host) #\newline))
-          (format t "Invalid Server: ~A. Valid Servers: ~A~C"
-                  (to-symbol host) (hosts) #\newline))))
+                           (format t "No Password Found for User: ~S, Server: ~S, Database: ~S~%"
+                                   username (to-symbol host) (to-symbol database)))))
+                  (format t "File Not Found: ~A"
+                          filename))
+              (format t "Invalid Database: ~A. Valid Databases: ~A~%"
+                      (to-symbol database) (databases host)))
+          (format t "Invalid Server: ~A. Valid Servers: ~A~%"
+                  (to-symbol host) (hosts)))))
 
 (defun print-help-hosts ()
   (format t
-          "~CServers: ~A~C"
-          #\tab (hosts) #\newline))
+          "  Servers: ~A~%"
+          (hosts)))
 
 (defun print-help-databases (host)
   (format t
-          "~CDatabases on ~A: ~A~C"
-          #\tab (to-symbol host) (databases host) #\newline))
+          "  Databases on ~A: ~A~%"
+          (to-symbol host) (databases host)))
 
 (defun print-help (&optional host database)
   (format t
-          "Usage: execSql <server> <database> [-f filename] [-u username] [-p password]~C"
-          #\newline)
+          "Usage: execSql <server> <database> [-f filename] [-u username] [-p password]~%")
   (cond ((not host) (print-help-hosts))
         ((not database) (print-help-databases host))))
 
 (defun print-version ()
-  (format t "execSql version ~A~C" *execsql-version-string* #\newline))
+  (format t "execSql version ~A~%" *execsql-version-string*))
 
 (defun remove-options-with-arguments (argv options)
   (if options
